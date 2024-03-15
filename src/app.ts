@@ -117,6 +117,17 @@ export const initApp = async (
         res.send('hi');
     });
 
+    app.get('/api', async (req, res) => {
+        try {
+          const response = await fetch('https://www.dev.readychatai.com/messages_json?format=json');
+          const data = await response.json();
+          res.json(data);
+        } catch (error) {
+          console.error('Error al obtener datos:', error);
+          res.status(500).send('Error interno del servidor');
+        }
+    });
+
     app.post(
         '/echo',
         makeValidationMiddleware([ev.body('name').notEmpty()]),
